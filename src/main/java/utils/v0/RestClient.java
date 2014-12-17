@@ -21,12 +21,11 @@ public class RestClient {
         Response result = invocation.get();
 
         LogManager.getLogger(RestClient.class).info("GET/");
-        LogManager.getLogger(RestClient.class).info("    toString: " + result.toString());
-        LogManager.getLogger(RestClient.class).info("    Headers: " + result.getHeaders());
-        LogManager.getLogger(RestClient.class).info("    Status: " + result.getStatus());
-        LogManager.getLogger(RestClient.class).info(
-                "    Entity: " + result.readEntity(String.class));
-        LogManager.getLogger(RestClient.class).info("    Links: " + result.getLinks());
-        LogManager.getLogger(RestClient.class).info("    Location: " + result.getLocation());
+        LogManager.getLogger(RestClient.class).info("-- toString: " + result.toString());
+        LogManager.getLogger(RestClient.class).info("-- Headers: " + result.getHeaders());
+        LogManager.getLogger(RestClient.class).info("-- Status: " + result.getStatus());
+        LogManager.getLogger(RestClient.class).info("-- Entity: " + result.readEntity(String.class));
+        LogManager.getLogger(RestClient.class).info("-- Links: " + result.getLinks());
+        LogManager.getLogger(RestClient.class).info("-- Location: " + result.getLocation());
     }
 }

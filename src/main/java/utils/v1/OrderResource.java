@@ -1,4 +1,4 @@
-package utils.v0;
+package utils.v1;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -10,16 +10,16 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
 
-@Path("/ordersV0")
+@Path("/orders")
 public class OrderResource {
 
     @Path("/{id}")
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String readOne(@PathParam("id") int id) {
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Order readOne(@PathParam("id") int id) {
         Order order = new Order(id, "Desc" + id);
         LogManager.getLogger(OrderResource.class).info("GET/ orders(id):" + order);
-        return order.toString();
+        return order;
     }
 
     @GET
