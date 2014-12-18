@@ -20,6 +20,10 @@ public class Order {
     }
 
     
+    public Order(String description) {
+        this(0,description);
+    }
+
     @XmlAttribute
     public int getId() {
         return id;
