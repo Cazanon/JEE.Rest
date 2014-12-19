@@ -2,8 +2,7 @@ package utils.v1;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;;
-
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Order {
@@ -19,9 +18,8 @@ public class Order {
         this.description = description;
     }
 
-    
     public Order(String description) {
-        this(0,description);
+        this(0, description);
     }
 
     @XmlAttribute

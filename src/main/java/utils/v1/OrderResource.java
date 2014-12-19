@@ -31,10 +31,10 @@ public class OrderResource {
         Order order = new Order(id, "Desc" + id);
         if (id == 0) {
             throw new NotFoundException();
+        } else {
+            LogManager.getLogger(OrderResource.class).info("GET/ orders(id):" + order);
+            return Response.ok(order).build(); // return order;
         }
-        LogManager.getLogger(OrderResource.class).info("GET/ orders(id):" + order);
-        return Response.ok(order).build();
-        // return order;
     }
 
     @GET

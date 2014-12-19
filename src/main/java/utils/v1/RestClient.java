@@ -25,6 +25,7 @@ public class RestClient {
         IO.getIO().println(
                 "DELETE/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
                         + "\n order: 666");
+        response.close();
     }
 
     public void get666() {
@@ -34,7 +35,7 @@ public class RestClient {
         webTarget = webTarget.path("666");
         Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
         Response response = invocation.get();
-        Order order = response.readEntity(Order.class);
+        Order order = response.readEntity(Order.class); // response.close()
 
         IO.getIO().println(
                 "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
