@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.MatrixParam;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,10 +27,14 @@ public class OrderResource {
     @Path("/{id}")
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Order readOne(@PathParam("id") int id) {
+    public Response readOne(@PathParam("id") int id) {
         Order order = new Order(id, "Desc" + id);
+        if (id == 0) {
+            throw new NotFoundException();
+        }
         LogManager.getLogger(OrderResource.class).info("GET/ orders(id):" + order);
-        return order;
+        return Response.ok(order).build();
+        // return order;
     }
 
     @GET
@@ -44,10 +52,12 @@ public class OrderResource {
     @Path("/search")
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public List<Order> search(@QueryParam("description") String description) {
+    public List<Order> search(@MatrixParam("description") String description,
+            @MatrixParam("atributo") String valor) {
         List<Order> list = new ArrayList<>();
         list.add(new Order(345, description));
-        list.add(new Order(123, description));
+        list.add(new Order(123, valor));
+        LogManager.getLogger(OrderResource.class).info("GET/ search:" + list);
         return list;
     }
 
@@ -56,7 +66,24 @@ public class OrderResource {
     public Response create(Order order) {
         order.setId(274932659);
         LogManager.getLogger(OrderResource.class).info("POST/ order:" + order);
-        return Response.created(URI.create("/orders/" + order.getId())).build();
+        return Response.created(URI.create("/orders/" + order.getId())).entity(order).build();
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes("application/xml")
+    public Response update(@PathParam("id") int id, Order order) {
+        order.setDescription("actualizado");
+        order.setId(id);
+        LogManager.getLogger(OrderResource.class).info("PUT/ order:" + order);
+        return Response.ok(order).build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_XML)
+    public void delete(@PathParam("id") int id) {
+        LogManager.getLogger(OrderResource.class).info("DELETE/ id: " + id);
     }
 
 }

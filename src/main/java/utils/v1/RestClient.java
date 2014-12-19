@@ -14,30 +14,82 @@ import javax.ws.rs.core.Response;
 import upm.jbb.IO;
 
 public class RestClient {
-    public void getOrders() {
+    public void delete666() {
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target("http://localhost:8080/rest");
         webTarget = webTarget.path("orders");
-        webTarget = webTarget.queryParam("start", 2).queryParam("size", 5);
+        webTarget = webTarget.path("666");
+        Invocation.Builder invocation = webTarget.request();
+        Response response = invocation.delete();
 
+        IO.getIO().println(
+                "DELETE/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n order: 666");
+    }
+
+    public void get666() {
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target("http://localhost:8080/rest");
+        webTarget = webTarget.path("orders");
+        webTarget = webTarget.path("666");
         Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
+        Response response = invocation.get();
+        Order order = response.readEntity(Order.class);
 
-        List<Order> list = invocation.get(new GenericType<List<Order>>() {
+        IO.getIO().println(
+                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n entity:" + order);
+    }
+
+    public void get0() {
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target("http://localhost:8080/rest");
+        webTarget = webTarget.path("orders");
+        webTarget = webTarget.path("0");
+        Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
+        Response response = invocation.get();
+        Order order = null;
+        if (response.getStatusInfo() == Response.Status.OK)
+            order = response.readEntity(Order.class);
+
+        IO.getIO().println(
+                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n entity:" + order);
+    }
+
+    public void getOrders() {
+        Client client = ClientBuilder.newClient(); // .property("connection.timeout",
+                                                   // 100)
+        // .sslContext(sslContext)
+        // .register(JacksonJsonProvider.class)
+        // .build();
+        WebTarget webTarget = client.target("http://localhost:8080/rest");
+        webTarget = webTarget.path("orders");
+        webTarget = webTarget.queryParam("start", 2).queryParam("size", 5);
+        Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
+        Response response = invocation.get();
+
+        List<Order> list = response.readEntity(new GenericType<List<Order>>() {
         });
-        IO.getIO().println("GET/ group:" + list);
+
+        IO.getIO().println(
+                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n group:" + list);
     }
 
     public void search() {
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target("http://localhost:8080/rest");
         webTarget = webTarget.path("orders/search");
-        webTarget = webTarget.queryParam("description", "una");
-
+        webTarget = webTarget.matrixParam("description", "una").matrixParam("atributo", "valor");
         Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
-
-        List<Order> list = invocation.get(new GenericType<List<Order>>() {
+        Response response = invocation.get();
+        List<Order> list = response.readEntity(new GenericType<List<Order>>() {
         });
-        IO.getIO().println("GET/ search:" + list);
+
+        IO.getIO().println(
+                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n search:" + list);
     }
 
     public void tiposMime() {
@@ -47,11 +99,12 @@ public class RestClient {
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target("http://localhost:8080/rest");
         webTarget = webTarget.path("orders").path("666");
-
         Invocation.Builder invocation = webTarget.request((String) IO.getIO().select(mediaTypes));
-        Response result = invocation.get();
+        Response response = invocation.get();
 
-        IO.getIO().println("GET/ " + result.readEntity((Class<?>) IO.getIO().select(clazz)));
+        IO.getIO().println(
+                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n get: " + response.readEntity((Class<?>) IO.getIO().select(clazz)));
     }
 
     public void create() {
@@ -59,11 +112,20 @@ public class RestClient {
         Order order = new Order("demonio");
         Response response = client.target("http://localhost:8080/rest").path("orders").request()
                 .post(Entity.xml(order));
-        if (response.getStatus() != 201) {
-            IO.getIO().println("Error...");
-        } else {
-            IO.getIO().println("Location: " + response.getLocation().toString());
-        }
+        IO.getIO().println(
+                "POST/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n Location: " + response.getLocation().toString() + "\n order: "
+                        + response.readEntity(Order.class));
+    }
+
+    public void update() {
+        Client client = ClientBuilder.newClient();
+        Order order = new Order("demonio");
+        Response response = client.target("http://localhost:8080/rest").path("orders").path("666")
+                .request().put(Entity.xml(order));
+        IO.getIO().println(
+                "PUT/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n order: " + response.readEntity(Order.class));
     }
 
     public static void main(String[] args) {
