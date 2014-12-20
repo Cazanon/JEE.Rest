@@ -41,6 +41,20 @@ public class RestClient {
                         + "\n entity:" + order);
     }
 
+    public void get666Description() {
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target("http://localhost:8080/rest");
+        webTarget = webTarget.path("orders");
+        webTarget = webTarget.path("666").path("description");
+        Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
+        Response response = invocation.get();
+        String  description = response.readEntity(String.class); // response.close()
+
+        IO.getIO().println(
+                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n entity:" + description);
+    }
+
     public void get0() {
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target("http://localhost:8080/rest");

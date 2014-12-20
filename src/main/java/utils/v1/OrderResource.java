@@ -37,6 +37,15 @@ public class OrderResource {
         }
     }
 
+    @Path("/{id}/description")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response readProperty(@PathParam("id") int id) {
+        Order order = new Order(id, "Desc" + id);
+        LogManager.getLogger(OrderResource.class).info("GET/ orders(id)/description:" + order.getDescription());
+        return Response.ok(order.getDescription()).build(); // return order.getDescription;
+    }
+
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<Order> readGroup(@DefaultValue("0") @QueryParam("start") int start,
