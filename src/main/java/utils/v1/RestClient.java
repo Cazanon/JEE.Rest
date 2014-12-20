@@ -21,7 +21,6 @@ public class RestClient {
         webTarget = webTarget.path("666");
         Invocation.Builder invocation = webTarget.request();
         Response response = invocation.delete();
-
         IO.getIO().println(
                 "DELETE/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
                         + "\n order: 666");
