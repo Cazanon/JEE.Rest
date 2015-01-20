@@ -31,6 +31,20 @@ public class OrderResource {
         Order order = new Order(id, "Desc" + id);
         if (id == 0) {
             throw new NotFoundException();
+            // BadRequestException
+            // ClientErrorException
+            // ForbiddenException
+            // InternalServerErrorException
+            // NotAcceptableException
+            // NotAllowedException
+            // NotAuthorizedException
+            // NotFoundException
+            // NotSupportedException
+            // ProcessingException
+            // RedirectionException
+            // ServerErrorException
+            // ServiceUnavailableException
+            // WebApplicationException
         } else {
             LogManager.getLogger(OrderResource.class).info("GET/ orders(id):" + order);
             return Response.ok(order).build(); // return order;
