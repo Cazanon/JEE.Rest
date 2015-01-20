@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 
-@Path("/orders")
+@Path("/ordersV1")
 public class OrderResource {
 
     @Path("/{id}")
@@ -42,8 +42,19 @@ public class OrderResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response readProperty(@PathParam("id") int id) {
         Order order = new Order(id, "Desc" + id);
-        LogManager.getLogger(OrderResource.class).info("GET/ orders(id)/description:" + order.getDescription());
-        return Response.ok(order.getDescription()).build(); // return order.getDescription;
+        LogManager.getLogger(OrderResource.class).info(
+                "GET/ orders(id)/description:" + order.getDescription());
+        return Response.ok(order.getDescription()).build(); // return
+                                                            // order.getDescription;
+    }
+
+    @Path("/{id}/is")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response readPropertyBoolean(@PathParam("id") int id) {
+        Boolean result = true;
+        LogManager.getLogger(OrderResource.class).info("GET/ orders(id)/is:" + result);
+        return Response.ok(Boolean.toString(result)).build();
     }
 
     @GET
@@ -74,6 +85,15 @@ public class OrderResource {
     @Consumes(MediaType.APPLICATION_XML)
     public Response create(Order order) {
         order.setId(274932659);
+        LogManager.getLogger(OrderResource.class).info("POST/ order:" + order);
+        return Response.created(URI.create("/orders/" + order.getId())).entity(order).build();
+    }
+
+    @POST
+    @Path("sin")
+    public Response createSin() {
+        Order order = new Order("sin datos");
+        order.setId(666);
         LogManager.getLogger(OrderResource.class).info("POST/ order:" + order);
         return Response.created(URI.create("/orders/" + order.getId())).entity(order).build();
     }
