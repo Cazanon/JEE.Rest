@@ -102,7 +102,7 @@ public class OrderResource {
         LogManager.getLogger(OrderResource.class).info("POST/ order:" + order);
         return Response.created(URI.create("/orders/" + order.getId())).entity(order).build();
     }
-
+    
     @POST
     @Path("sin")
     public Response createSin() {
