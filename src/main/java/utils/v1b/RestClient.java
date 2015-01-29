@@ -5,9 +5,6 @@ import java.util.List;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import upm.jbb.IO;
@@ -28,7 +25,8 @@ public class RestClient {
         WebTarget webTarget = this.getWebTarget().path("listString");
         Invocation.Builder invocation = webTarget.request();
         Response response = invocation.get();
-        IO.getIO().println("GET/ listString: " + response.toString());
+        List<String> list = response.readEntity(ListStringWrapper.class).getListString();
+        IO.getIO().println("GET/ listString: " + list);
     }
 
     public static void main(String[] args) {

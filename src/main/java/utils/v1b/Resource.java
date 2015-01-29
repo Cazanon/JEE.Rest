@@ -6,7 +6,6 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
@@ -27,11 +26,10 @@ public class Resource {
     @Path("/listString")
     @GET
     @Produces({MediaType.APPLICATION_XML})
-    public GenericEntity<List<String>>  readListString() {
+    public ListStringWrapper readListString() {
         List<String> list = Arrays.asList("test", "as");
-
-        return new GenericEntity<List<String>>(list) {};
+        LogManager.getLogger(HelloRest.class).info("GET/ listString" + list);
+        return new ListStringWrapper(list);
     }
-
 
 }
