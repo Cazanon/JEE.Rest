@@ -29,46 +29,46 @@ public class OrderResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response readOne(@PathParam("id") int id) {
         Order order = new Order(id, "Desc" + id);
-        if (id == 0) {
-            throw new NotFoundException();
-            // BadRequestException
-            // ClientErrorException
-            // ForbiddenException
-            // InternalServerErrorException
-            // NotAcceptableException
-            // NotAllowedException
-            // NotAuthorizedException
-            // NotFoundException
-            // NotSupportedException
-            // ProcessingException
-            // RedirectionException
-            // ServerErrorException
-            // ServiceUnavailableException
-            // WebApplicationException
-        } else {
+        if (id != 0) {
             LogManager.getLogger(OrderResource.class).info("GET/ orders(id):" + order);
-            return Response.ok(order).build(); // return order;
+            return Response.ok(order).build();
+            // return order;
+        } else {
+            throw new NotFoundException();
+            // javax.ws.rs.BadRequestException
+            // javax.ws.rs.ClientErrorException
+            // javax.ws.rs.ForbiddenException
+            // javax.ws.rs.InternalServerErrorException
+            // javax.ws.rs.NotAcceptableException
+            // javax.ws.rs.NotAllowedException
+            // javax.ws.rs.NotAuthorizedException
+            // javax.ws.rs.NotFoundException
+            // javax.ws.rs.NotSupportedException
+            // javax.ws.rs.ProcessingException
+            // javax.ws.rs.RedirectionException
+            // javax.ws.rs.ServerErrorException
+            // javax.ws.rs.ServiceUnavailableException
+            // javax.ws.rs.WebApplicationException
         }
     }
 
     @Path("/{id}/description")
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response readProperty(@PathParam("id") int id) {
+    public String readProperty(@PathParam("id") int id) {
         Order order = new Order(id, "Desc" + id);
         LogManager.getLogger(OrderResource.class).info(
                 "GET/ orders(id)/description:" + order.getDescription());
-        return Response.ok(order.getDescription()).build(); // return
-                                                            // order.getDescription;
+        return order.getDescription();
     }
 
-    @Path("/{id}/is")
+    @Path("/{id}/boolean")
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response readPropertyBoolean(@PathParam("id") int id) {
+    public String readPropertyBoolean(@PathParam("id") int id) {
         Boolean result = true;
         LogManager.getLogger(OrderResource.class).info("GET/ orders(id)/is:" + result);
-        return Response.ok(Boolean.toString(result)).build();
+        return Boolean.toString(result);
     }
 
     @GET
@@ -100,16 +100,16 @@ public class OrderResource {
     public Response create(Order order) {
         order.setId(274932659);
         LogManager.getLogger(OrderResource.class).info("POST/ order:" + order);
-        return Response.created(URI.create("/orders/" + order.getId())).entity(order).build();
+        return Response.created(URI.create("orders/" + order.getId())).entity(order).build();
     }
-    
+
     @POST
     @Path("sin")
     public Response createSin() {
         Order order = new Order("sin datos");
         order.setId(666);
         LogManager.getLogger(OrderResource.class).info("POST/ order:" + order);
-        return Response.created(URI.create("/orders/" + order.getId())).entity(order).build();
+        return Response.created(URI.create("orders/" + order.getId())).entity(order).build();
     }
 
     @PUT

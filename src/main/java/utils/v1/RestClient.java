@@ -14,17 +14,7 @@ import upm.jbb.IO;
 
 public class RestClient {
     private WebTarget getWebTarget() {
-        return ClientBuilder.newClient().target("http://localhost:8080/rest").path("ordersV1");
-    }
-
-    public void delete666() {
-        WebTarget webTarget = this.getWebTarget().path("666");
-        Invocation.Builder invocation = webTarget.request();
-        Response response = invocation.delete();
-        IO.getIO().println(
-                "DELETE/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
-                        + "\n order: 666");
-        response.close();
+        return ClientBuilder.newClient().target("http://localhost:8080/Rest").path("ordersV1");
     }
 
     public void get666() {
@@ -32,6 +22,19 @@ public class RestClient {
         Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
         Response response = invocation.get();
         Order order = response.readEntity(Order.class); // response.close()
+
+        IO.getIO().println(
+                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n entity:" + order);
+    }
+
+    public void get0() {
+        WebTarget webTarget = this.getWebTarget().path("0");
+        Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
+        Response response = invocation.get();
+        Order order = null;
+        if (response.getStatusInfo() == Response.Status.OK)
+            order = response.readEntity(Order.class);
 
         IO.getIO().println(
                 "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
@@ -49,28 +52,15 @@ public class RestClient {
                         + "\n entity:" + description);
     }
 
-    public void get666is() {
-        WebTarget webTarget = this.getWebTarget().path("666").path("is");
+    public void get666Boolean() {
+        WebTarget webTarget = this.getWebTarget().path("666").path("boolean");
         Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
         Response response = invocation.get();
-        Boolean is = Boolean.valueOf(response.readEntity(String.class)); // response.close()
+        Boolean bool = Boolean.valueOf(response.readEntity(String.class)); // response.close()
 
         IO.getIO().println(
                 "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
-                        + "\n entity:" + is);
-    }
-
-    public void get0() {
-        WebTarget webTarget = this.getWebTarget().path("0");
-        Invocation.Builder invocation = webTarget.request(MediaType.APPLICATION_XML);
-        Response response = invocation.get();
-        Order order = null;
-        if (response.getStatusInfo() == Response.Status.OK)
-            order = response.readEntity(Order.class);
-
-        IO.getIO().println(
-                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
-                        + "\n entity:" + order);
+                        + "\n entity:" + bool);
     }
 
     public void getOrders() {
@@ -99,19 +89,6 @@ public class RestClient {
                         + "\n search:" + list);
     }
 
-    public void tiposMime() {
-        String[] mediaTypes = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON};
-        Class<?>[] clazz = {String.class, Order.class};
-
-        WebTarget webTarget = this.getWebTarget().path("666");
-        Invocation.Builder invocation = webTarget.request((String) IO.getIO().select(mediaTypes));
-        Response response = invocation.get();
-
-        IO.getIO().println(
-                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
-                        + "\n get: " + response.readEntity((Class<?>) IO.getIO().select(clazz)));
-    }
-
     public void create() {
         Order order = new Order("demonio");
         Response response = this.getWebTarget().request().post(Entity.xml(order));
@@ -127,6 +104,31 @@ public class RestClient {
                 "POST/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
                         + "\n Location: " + response.getLocation().toString() + "\n order: "
                         + response.readEntity(Order.class));
+    }
+
+    public void delete666() {
+        WebTarget webTarget = this.getWebTarget().path("666");
+        Invocation.Builder invocation = webTarget.request();
+        Response response = invocation.delete();
+        IO.getIO().println(
+                "DELETE/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n order: 666");
+        response.close();
+    }
+
+
+
+    public void tiposMime() {
+        String[] mediaTypes = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON};
+        Class<?>[] clazz = {String.class, Order.class};
+
+        WebTarget webTarget = this.getWebTarget().path("666");
+        Invocation.Builder invocation = webTarget.request((String) IO.getIO().select(mediaTypes));
+        Response response = invocation.get();
+
+        IO.getIO().println(
+                "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n get: " + response.readEntity((Class<?>) IO.getIO().select(clazz)));
     }
 
     public void update() {
