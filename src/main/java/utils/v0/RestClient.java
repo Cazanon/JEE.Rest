@@ -12,8 +12,8 @@ import org.apache.logging.log4j.LogManager;
 public class RestClient {
     public static void main(String[] args) {
         Client client = ClientBuilder.newClient();
-        WebTarget webTarget = client.target("http://localhost:8080/rest");
-        webTarget = webTarget.path("orders");
+        WebTarget webTarget = client.target("http://localhost:8080/Rest");
+        webTarget = webTarget.path("ordersV0");
         webTarget = webTarget.queryParam("start", 2).queryParam("size", 5);
 
         Invocation.Builder invocation = webTarget.request(MediaType.TEXT_PLAIN);
