@@ -106,6 +106,14 @@ public class RestClient {
                         + response.readEntity(Order.class));
     }
 
+    public void update() {
+        Order order = new Order("demonio");
+        Response response = this.getWebTarget().path("666").request().put(Entity.xml(order));
+        IO.getIO().println(
+                "PUT/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
+                        + "\n order: " + response.readEntity(Order.class));
+    }
+
     public void delete666() {
         WebTarget webTarget = this.getWebTarget().path("666");
         Invocation.Builder invocation = webTarget.request();
@@ -115,8 +123,6 @@ public class RestClient {
                         + "\n order: 666");
         response.close();
     }
-
-
 
     public void tiposMime() {
         String[] mediaTypes = {MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON};
@@ -129,14 +135,6 @@ public class RestClient {
         IO.getIO().println(
                 "GET/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
                         + "\n get: " + response.readEntity((Class<?>) IO.getIO().select(clazz)));
-    }
-
-    public void update() {
-        Order order = new Order("demonio");
-        Response response = this.getWebTarget().path("666").request().put(Entity.xml(order));
-        IO.getIO().println(
-                "PUT/ Status: " + response.getStatusInfo() + ":" + response.getStatus()
-                        + "\n order: " + response.readEntity(Order.class));
     }
 
     public static void main(String[] args) {

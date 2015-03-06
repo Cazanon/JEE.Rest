@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+//import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -35,20 +36,8 @@ public class OrderResource {
             // return order;
         } else {
             throw new NotFoundException();
-            // javax.ws.rs.BadRequestException
-            // javax.ws.rs.ClientErrorException
-            // javax.ws.rs.ForbiddenException
-            // javax.ws.rs.InternalServerErrorException
-            // javax.ws.rs.NotAcceptableException
-            // javax.ws.rs.NotAllowedException
-            // javax.ws.rs.NotAuthorizedException
-            // javax.ws.rs.NotFoundException
-            // javax.ws.rs.NotSupportedException
-            // javax.ws.rs.ProcessingException
-            // javax.ws.rs.RedirectionException
-            // javax.ws.rs.ServerErrorException
-            // javax.ws.rs.ServiceUnavailableException
-            // javax.ws.rs.WebApplicationException
+            // throw new WebApplicationException(Response.Status.NOT_FOUND);
+            // return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
@@ -115,11 +104,11 @@ public class OrderResource {
     @PUT
     @Path("{id}")
     @Consumes("application/xml")
-    public Response update(@PathParam("id") int id, Order order) {
+    public Order update(@PathParam("id") int id, Order order) {
         order.setDescription("actualizado");
         order.setId(id);
         LogManager.getLogger(OrderResource.class).info("PUT/ order:" + order);
-        return Response.ok(order).build();
+        return order;
     }
 
     @DELETE
