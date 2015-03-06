@@ -10,7 +10,7 @@ import upm.jbb.IO;
 
 public class RestClient {
     private WebTarget getWebTarget(){
-        return ClientBuilder.newClient().target("http://localhost:8080/rest").path("ordersV2");
+        return ClientBuilder.newClient().target("http://localhost:8080/Rest").path("ordersV2");
     }
 
     public void getOrders666() {

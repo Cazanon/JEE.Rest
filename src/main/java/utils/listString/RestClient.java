@@ -11,7 +11,7 @@ import upm.jbb.IO;
 
 public class RestClient {
     private WebTarget getWebTarget() {
-        return ClientBuilder.newClient().target("http://localhost:8080/rest").path("resources");
+        return ClientBuilder.newClient().target("http://localhost:8080/Rest").path("resources");
     }
 
     public void hello() {
